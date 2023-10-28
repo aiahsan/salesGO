@@ -12,6 +12,7 @@ namespace SalesGO.Services.Vendor.DataContext.Context
     {
         public static void SeedData(IMongoCollection<Setup_Vendor> _Vendors)
         {
+
             bool exsistCategory = _Vendors.Find(x => true).Any();
 
             if (!exsistCategory)
