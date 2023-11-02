@@ -8,13 +8,13 @@ Checking Docker Process
 
 Creating and running docker container
 
--- docker run -d -p 27017:27017 --name mongo-vendor mongo
+-- docker run -d -p 27017:27018 --name mongo-customer mongo
 
 -- docker run <mode -d for depeche and -i for interactive> < -p  binding port from docker image to external env 27017:27017> < -- name of the container> <image which is mongo here>
 
 Executing docker container shel
 
--- docker exec -it mongo-vendor /bin/bash
+-- docker exec -it mongo-customer /bin/bash
 
 after that type 
 
@@ -27,10 +27,10 @@ to run mongoDB from shell
 
 -- show dbs
 
--- use vendorDB
+-- use CustomerDB
 
--- db.createCollection('Setup_Vendors')
-
+-- db.createCollection('Setup_Customers')
+-- db.createCollection('Setup_outlets')
 -- show collections
 
 
