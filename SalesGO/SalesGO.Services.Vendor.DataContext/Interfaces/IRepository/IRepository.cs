@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,9 +13,9 @@ namespace SalesGO.Services.Vendor.DataContext.Interfaces.IRepository
     {
         Task<IEnumerable<T>> GetAll();
         Task<T> GetDataById(string id);
-        Task Create(T product);
-        Task<bool> Update(T product);
-        Task<bool> Delete(string id);
+        Task<bool> Create(T product);
+        Task<bool> Update(T product, FilterDefinition<T> filter);
+        Task<bool> Delete(FilterDefinition<T> filter);
 
      }
 }

@@ -7,10 +7,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace SalesGO.Services.Vendor.DataContext.Repository
 {
-    public class Repository<T> : IRepository<T> where T : class
+    public class Repository<T> : IRepository<T>
+        where T : class
     {
         private readonly IVendorContext _context;
 
@@ -20,70 +22,67 @@ namespace SalesGO.Services.Vendor.DataContext.Repository
         {
             _context = CC;
             this._DbSet = _context.Set<T>();
-
-        }
-
-        public async Task Create(T data)
-        {
-            await _DbSet.InsertOneAsync(data);
-        }
-
-        public async Task<bool> Delete(string id)
-        {
-            var objectId = ObjectId.Parse(id);
-            var filter = Builders<T>.Filter.Eq("_id", objectId);
-
-            var result = await _DbSet.DeleteOneAsync(filter).ConfigureAwait(false);
-
-            return result.DeletedCount > 0;
         }
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            var data = await _DbSet.FindAsync(x => true);
+            var filter = Builders<T>.Filter.Eq("IsActive", true);
+            var data = await _DbSet.FindAsync(filter);
             return data.ToList();
         }
 
         public async Task<T> GetDataById(string id)
         {
-            var objectId = ObjectId.Parse("id");
+            var objectId = ObjectId.Parse(id);
             var filter = Builders<T>.Filter.Eq("_id", objectId);
-            var data = await _DbSet.FindAsync(filter).ConfigureAwait(false);
+            var data = await _DbSet.FindAsync(filter);
 
-            return await data.FirstOrDefaultAsync().ConfigureAwait(false);
-
-
+            return await data.FirstOrDefaultAsync();
         }
 
-        public async Task<bool> Update(T data)
+        public async Task<bool> Create(T data)
         {
-            var objectIdProperty = typeof(T).GetProperty("_id");
-            if (objectIdProperty == null)
+            try
             {
-                // Handle the case where the document doesn't have an "_id" property
+                await _DbSet.InsertOneAsync(data);
+                return true;
+            }
+            catch (Exception ex)
+            {
                 return false;
             }
-
-            var objectIdValue = objectIdProperty.GetValue(data);
-
-            if (objectIdValue == null)
-            {
-                // Handle the case where the "_id" property is not set
-                return false;
-            }
-
-            var objectId = (ObjectId)objectIdValue;
-
-            if (objectId == null)
-            {
-                // Handle the case where the "_id" property is not of type ObjectId
-                return false;
-            }
-
-            var filter = Builders<T>.Filter.Eq("_id", objectId);
-            var result = await _DbSet.ReplaceOneAsync(filter, data).ConfigureAwait(false);
-
-            return result.ModifiedCount > 0;
         }
+
+        public async Task<bool> Delete(FilterDefinition<T> filter)
+        {
+            var result = await _DbSet.DeleteOneAsync(filter).ConfigureAwait(false);
+
+            return result.DeletedCount > 0;
+        }
+
+        public async Task<bool> Update(T data, FilterDefinition<T> filter)
+        {
+            if (data != null)
+            {
+                var updateDefinitionBuilder = Builders<T>.Update;
+                var updateDefinition = updateDefinitionBuilder.Combine();
+
+                foreach (var property in typeof(T).GetProperties())
+                {
+                    // Exclude properties with null values
+                    var value = property.GetValue(data);
+                    if (value != null && !string.IsNullOrEmpty(value.ToString()))
+                    {
+                        updateDefinition = updateDefinition.Set(property.Name, value);
+                    }
+                }
+
+                var result = await _DbSet.UpdateOneAsync(filter, updateDefinition).ConfigureAwait(false);
+                return result.ModifiedCount > 0;
+            }
+
+            return false;
+        }
+
     }
 }

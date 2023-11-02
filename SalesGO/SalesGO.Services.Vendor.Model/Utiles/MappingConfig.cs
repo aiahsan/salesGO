@@ -15,10 +15,12 @@ namespace SalesGO.Services.Vendor.Model.Utiles
         {
             var mappingConfig = new MapperConfiguration(config =>
             {
-                config.CreateMap<VendorDTO, Setup_Vendor>().ReverseMap(); 
-            
+                config.CreateMap<VendorDTO, Setup_Vendor>().ReverseMap();
+ 
+
             });
 
+ 
             return mappingConfig;
         }
     }

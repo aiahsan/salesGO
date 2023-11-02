@@ -9,7 +9,7 @@ namespace SalesGO.Services.Vendor.DataContext.Interfaces.IRepository
 {
     public interface IVendor:IRepository<Setup_Vendor>
     {
-
+        Task<IEnumerable<Setup_Vendor>> GetDataByBusinessId(string id);
     }
     
 }
