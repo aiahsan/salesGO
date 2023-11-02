@@ -7,7 +7,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Identity", "SalesGO.Services.Identity\SalesGO.Services.Identity.csproj", "{C768173A-32AF-43F1-AEFA-AFDEEB63ACE6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Customer", "SalesGO.Services.Customer\SalesGO.Services.Customer.csproj", "{AEA51B73-8C02-40F3-9679-6564436D7353}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Customer.API", "SalesGO.Services.Customer\SalesGO.Services.Customer.API.csproj", "{AEA51B73-8C02-40F3-9679-6564436D7353}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Catelog", "SalesGO.Services.Catelog\SalesGO.Services.Catelog.csproj", "{67DCF054-C059-463E-A1BF-DBF2F1F463C0}"
 EndProject
@@ -41,6 +41,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Identity", "Identity", "{50DDEC5A-3AB2-4B1F-A429-4E37B7677801}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Customer", "Customer", "{2809C513-97BE-4BC1-9CCB-144C0760414D}"
+	ProjectSection(SolutionItems) = preProject
+		readMe.txt = readMe.txt
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Catelog", "Catelog", "{4B6B25FC-3237-43A9-9619-61682AD1DFBC}"
 EndProject
@@ -51,6 +54,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Utiles", "Utiles", "{5F38A2E9-BBCC-4F9F-9611-FE4F7D4AE091}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Response", "Response\Response.csproj", "{5550B8F3-9BA8-487B-8097-C8C247B44310}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesGO.Services.Customer.DataContext", "SalesGO.Services.Customer.DataContext\SalesGO.Services.Customer.DataContext.csproj", "{6F641E9E-DEF3-4D99-8DC9-D79A7DAC8998}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesGO.Services.Customer.Model", "SalesGO.Services.Customer.Model\SalesGO.Services.Customer.Model.csproj", "{A59E32F5-5D0D-4A9F-80F8-2B561419E47E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -106,6 +113,14 @@ Global
 		{5550B8F3-9BA8-487B-8097-C8C247B44310}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5550B8F3-9BA8-487B-8097-C8C247B44310}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5550B8F3-9BA8-487B-8097-C8C247B44310}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F641E9E-DEF3-4D99-8DC9-D79A7DAC8998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F641E9E-DEF3-4D99-8DC9-D79A7DAC8998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F641E9E-DEF3-4D99-8DC9-D79A7DAC8998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F641E9E-DEF3-4D99-8DC9-D79A7DAC8998}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A59E32F5-5D0D-4A9F-80F8-2B561419E47E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A59E32F5-5D0D-4A9F-80F8-2B561419E47E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A59E32F5-5D0D-4A9F-80F8-2B561419E47E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A59E32F5-5D0D-4A9F-80F8-2B561419E47E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -132,6 +147,8 @@ Global
 		{678E1A12-B3FC-4117-9BE8-3CCFF5C0BAC1} = {BBE01572-5A4A-46BD-BB4D-D9D6366FE36A}
 		{D026ED07-A33A-464B-A792-6610E7715BF9} = {BBE01572-5A4A-46BD-BB4D-D9D6366FE36A}
 		{5550B8F3-9BA8-487B-8097-C8C247B44310} = {5F38A2E9-BBCC-4F9F-9611-FE4F7D4AE091}
+		{6F641E9E-DEF3-4D99-8DC9-D79A7DAC8998} = {2809C513-97BE-4BC1-9CCB-144C0760414D}
+		{A59E32F5-5D0D-4A9F-80F8-2B561419E47E} = {2809C513-97BE-4BC1-9CCB-144C0760414D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FED0518B-FEE9-4E67-A3B0-CD4930C6F755}

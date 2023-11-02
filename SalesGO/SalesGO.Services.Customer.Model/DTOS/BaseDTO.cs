@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SalesGO.Services.Vendor.Model.DTOS
+namespace SalesGO.Services.Customer.Model.DTOS
 {
     public class BaseDTO
     {

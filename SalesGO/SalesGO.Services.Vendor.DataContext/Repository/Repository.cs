@@ -26,7 +26,7 @@ namespace SalesGO.Services.Vendor.DataContext.Repository
 
         public async Task<IEnumerable<T>> GetAll()
         {
-            var filter = Builders<T>.Filter.Eq("IsActive", true);
+            var filter = Builders<T>.Filter.Eq("isActive", true);
             var data = await _DbSet.FindAsync(filter);
             return data.ToList();
         }
