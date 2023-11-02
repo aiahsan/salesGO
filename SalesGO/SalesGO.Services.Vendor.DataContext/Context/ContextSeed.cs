@@ -23,9 +23,9 @@ namespace SalesGO.Services.Vendor.DataContext.Context
                         {
                             vendorId = "641cb427b85f9475a34046a9",
                             businessId="1",
-                            CreatedAt = DateTime.Now,
-                            IsActive = true,
-                            CreatedBy="-1",
+                            createdAt = DateTime.Now,
+                            isActive = true,
+                            createdBy="-1",
                             vendorAddress="xyz street",
                             vendorBusinessName="Halal Foods",
                             vendorCity="Karachi",
