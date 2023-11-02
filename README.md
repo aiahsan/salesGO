@@ -21,5 +21,5 @@
 <ul>
   <li><h6>Surveys Domain <sub>MS-SQL</sub> </h6></li>
   <li><h6>Customer Domain <sub>MS-SQL</sub></h6></li>
-  <li><h6>Resource Domain <sub>Redis</sub></h6></li>
+  <li><h6>Resource Domain <sub>MS-SQL</sub></h6></li>
 </ul>
