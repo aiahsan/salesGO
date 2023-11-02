@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Response.Const;
 using SalesGO.Services.Vendor.DataContext.Interfaces.IRepository;
 using SalesGO.Services.Vendor.Model.DTOS;
 using System;
@@ -31,20 +32,22 @@ namespace SalesGO.Services.Vendor.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<WeatherForecast>> Get()
+        public async Task<SalesGoResponse> Get()
         {
-
-            var dataGet=await _context.Vendor.GetAll();
-            var mappedData=  _mapper.Map<IEnumerable<VendorDTO>>(dataGet);
-
-            var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            try
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+                var dataGet = await _context.Vendor.GetAll();
+                var mappedData = _mapper.Map<IEnumerable<VendorDTO>>(dataGet);
+                return CustomRequest.CreateResponse("", true, mappedData);
+
+            }
+            catch (Exception ex)
+            {
+                return CustomRequest.CreateResponse(ex.Message, false, null);
+            }
+
+          
+ 
         }
     }
 }
