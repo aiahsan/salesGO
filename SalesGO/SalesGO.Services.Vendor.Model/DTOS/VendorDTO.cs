@@ -11,8 +11,7 @@ namespace SalesGO.Services.Vendor.Model.DTOS
 {
     public class VendorDTO: BaseDTO
     {
-        
-        public string Id { get; set; }
+
         public string vendorId { get; set; } = "";
         public string businessId { get; set; } = "";
         public string vendorName { get; set; } = "";

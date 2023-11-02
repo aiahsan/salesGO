@@ -14,7 +14,7 @@ namespace SalesGO.Services.Vendor.DataContext.Repository
 
         public UnitOfWork(IVendorContext context)
         {
-            _context = context;
+            this._context = context;
             Vendor = new VendorRepository(context);
             
         }

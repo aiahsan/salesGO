@@ -16,12 +16,11 @@ namespace SalesGO.Services.Vendor.DataContext.Context
         {
 
 
-            //configuration.GetValue<string>("DatabaseSettings:CollectionNames:Products")
-
+ 
             var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
             var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
 
-            Setup_Vendors = database.GetCollection<Setup_Vendor>(configuration["DatabaseSettings:CollectionNames:Setup_Vendors"]);
+            Setup_Vendors = database.GetCollection<Setup_Vendor>("Setup_Vendors");
             
 
             ContextSeed.SeedData(Setup_Vendors);

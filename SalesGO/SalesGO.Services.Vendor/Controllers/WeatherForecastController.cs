@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using SalesGO.Services.Vendor.DataContext.Interfaces.IRepository;
+using SalesGO.Services.Vendor.Model.DTOS;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,15 +20,23 @@ namespace SalesGO.Services.Vendor.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IUnitOfWork _context;
+        private readonly IMapper _mapper;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger,IUnitOfWork unitOfWork, IMapper mapper)
         {
             _logger = logger;
+            _context = unitOfWork;
+            _mapper = mapper; 
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public async Task<IEnumerable<WeatherForecast>> Get()
         {
+
+            var dataGet=await _context.Vendor.GetAll();
+            var mappedData=  _mapper.Map<IEnumerable<VendorDTO>>(dataGet);
+
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {

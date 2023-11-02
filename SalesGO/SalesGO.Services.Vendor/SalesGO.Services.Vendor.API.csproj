@@ -5,7 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\SalesGO.Services.Vendor.DataContext\SalesGO.Services.Vendor.DataContext.csproj" />
+    <ProjectReference Include="..\SalesGO.Services.Vendor.Model\SalesGO.Services.Vendor.Model.csproj" />
   </ItemGroup>
 
 </Project>
