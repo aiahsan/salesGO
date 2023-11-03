@@ -8,4 +8,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Response\Response.csproj" />
+    <ProjectReference Include="..\SalesGO.Services.Customer.DataContext\SalesGO.Services.Customer.DataContext.csproj" />
+    <ProjectReference Include="..\SalesGO.Services.Customer.Model\SalesGO.Services.Customer.Model.csproj" />
+  </ItemGroup>
+
 </Project>

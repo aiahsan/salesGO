@@ -19,5 +19,14 @@ namespace SalesGO.Services.Customer.DataContext.Repository
             _context = context;
         }
 
+        public async Task<IEnumerable<Setup_Customer>> GetDataByBusinessId(string id)
+        {
+
+            var filter = Builders<Setup_Customer>.Filter.Eq("businessId", id);
+            var data = await _DbSet.FindAsync(filter);
+            return data.ToList();
+
+
+        }
     }
 }

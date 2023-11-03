@@ -7,6 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using SalesGO.Services.Customer.DataContext.DataContext;
+using SalesGO.Services.Customer.DataContext.Interfaces.IContext;
+using SalesGO.Services.Customer.DataContext.Interfaces.IRepository;
+using SalesGO.Services.Customer.DataContext.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +30,10 @@ namespace SalesGO.Services.Customer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddControllers();
+            services.AddScoped<ICustomerContext, CustomerContext>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
