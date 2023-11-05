@@ -89,7 +89,7 @@ namespace SalesGO.Services.Customer.Controllers
         }
 
         [HttpPost()]
-        public async Task<SalesGoResponse> CreateVendor(Setup_Customer customer)
+        public async Task<SalesGoResponse> CreateCustomer(Setup_Customer customer)
         {
             try
             {
@@ -118,7 +118,7 @@ namespace SalesGO.Services.Customer.Controllers
 
 
         [HttpPut()]
-        public async Task<SalesGoResponse> UpdateVendor(Setup_Customer customer)
+        public async Task<SalesGoResponse> UpdateCustomer(Setup_Customer customer)
         {
             try
             {
@@ -168,5 +168,78 @@ namespace SalesGO.Services.Customer.Controllers
                 return CustomRequest.CreateResponse(ex.Message, false, null);
             }
         }
+
+
+        [HttpPost("Outlet")]
+        public async Task<SalesGoResponse> CreateOutlet(Setup_Outlet _Outlet)
+        {
+            try
+            {
+
+                if (_Outlet != null && _Outlet.customerId!=null&&_Outlet.customerId!="")
+                {
+                    _Outlet.outletId= null;
+                    var isCustomerExsist = await _context.Customer.GetDataById(_Outlet.customerId);
+                    
+                    if(isCustomerExsist != null)
+                    {
+                        var response = await _context.Customer.AddOutlet(_Outlet);
+                        if (response == true)
+                        {
+                            return CustomRequest.CreateResponse("", true, _Outlet);
+
+                        }
+                    }
+                    
+                    return CustomRequest.CreateResponse("Customer does not exist", false, null);
+
+                }
+
+                return CustomRequest.CreateResponse("Something wen't wrong", false, _Outlet);
+
+
+            }
+            catch (Exception ex)
+            {
+                return CustomRequest.CreateResponse(ex.Message, false, null);
+            }
+        }
+
+
+        [HttpPut("Outlet")]
+        public async Task<SalesGoResponse> UpdateOutlet(Setup_Outlet _Outlet)
+        {
+            try
+            {
+
+                if (_Outlet != null && _Outlet.customerId != null && _Outlet.customerId != "")
+                {
+                    _Outlet.outletId = null;
+                    var isCustomerExsist = await _context.Customer.GetDataById(_Outlet.customerId);
+
+                    if (isCustomerExsist != null)
+                    {
+                        var response = await _context.Customer.UpdateOutlet(_Outlet);
+                        if (response == true)
+                        {
+                            return CustomRequest.CreateResponse("", true, _Outlet);
+
+                        }
+                    }
+
+                    return CustomRequest.CreateResponse("Customer does not exist", false, null);
+
+                }
+
+                return CustomRequest.CreateResponse("Something wen't wrong", false, _Outlet);
+
+
+            }
+            catch (Exception ex)
+            {
+                return CustomRequest.CreateResponse(ex.Message, false, null);
+            }
+        }
+
     }
 }

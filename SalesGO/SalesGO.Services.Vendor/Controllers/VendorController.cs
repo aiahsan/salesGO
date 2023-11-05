@@ -186,5 +186,35 @@ namespace SalesGO.Services.Vendor.Controllers
                 return CustomRequest.CreateResponse(ex.Message, false, null);
             }
         }
+
+        [HttpPost("/Outlet")]
+        public async Task<SalesGoResponse> CreateOutlet(VendorDTO vendor)
+        {
+            try
+            {
+
+                var mappedData = _mapper.Map<Setup_Vendor>(vendor);
+                if (mappedData != null)
+                {
+                    mappedData.vendorId = null;
+                    var response = await _context.Vendor.Create(mappedData);
+                    if (response == true)
+                    {
+                        return CustomRequest.CreateResponse("", true, mappedData);
+
+                    }
+
+                }
+
+                return CustomRequest.CreateResponse("Something wen't wrong", false, mappedData);
+
+
+            }
+            catch (Exception ex)
+            {
+                return CustomRequest.CreateResponse(ex.Message, false, null);
+            }
+        }
+
     }
 }

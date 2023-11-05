@@ -1,4 +1,4 @@
-﻿using SalesGO.Services.Vendor.Model.Models;
+﻿ using SalesGO.Services.Vendor.Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
