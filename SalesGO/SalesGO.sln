@@ -5,8 +5,6 @@ VisualStudioVersion = 17.7.34221.43
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{BBE01572-5A4A-46BD-BB4D-D9D6366FE36A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Identity", "SalesGO.Services.Identity\SalesGO.Services.Identity.csproj", "{C768173A-32AF-43F1-AEFA-AFDEEB63ACE6}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Customer.API", "SalesGO.Services.Customer\SalesGO.Services.Customer.API.csproj", "{AEA51B73-8C02-40F3-9679-6564436D7353}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Catelog.API", "SalesGO.Services.Catelog\SalesGO.Services.Catelog.API.csproj", "{67DCF054-C059-463E-A1BF-DBF2F1F463C0}"
@@ -59,9 +57,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Customer.D
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Customer.Model", "SalesGO.Services.Customer.Model\SalesGO.Services.Customer.Model.csproj", "{A59E32F5-5D0D-4A9F-80F8-2B561419E47E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesGO.Services.Catelog.DataContext", "SalesGO.Services.Catelog.DataContext\SalesGO.Services.Catelog.DataContext.csproj", "{33179803-8654-43F7-AD4E-31CFA36C34DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Catelog.DataContext", "SalesGO.Services.Catelog.DataContext\SalesGO.Services.Catelog.DataContext.csproj", "{33179803-8654-43F7-AD4E-31CFA36C34DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesGO.Services.Catelog.Model", "SalesGO.Services.Catelog.Model\SalesGO.Services.Catelog.Model.csproj", "{E2F53553-7046-4174-A2DC-B5499269AF23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SalesGO.Services.Catelog.Model", "SalesGO.Services.Catelog.Model\SalesGO.Services.Catelog.Model.csproj", "{E2F53553-7046-4174-A2DC-B5499269AF23}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SalesGO.Services.Identity", "SalesGO.Services.Identity\SalesGO.Services.Identity.csproj", "{1520C52B-E839-4A93-8A95-24C61FCD9D1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -69,10 +69,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C768173A-32AF-43F1-AEFA-AFDEEB63ACE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C768173A-32AF-43F1-AEFA-AFDEEB63ACE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C768173A-32AF-43F1-AEFA-AFDEEB63ACE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C768173A-32AF-43F1-AEFA-AFDEEB63ACE6}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AEA51B73-8C02-40F3-9679-6564436D7353}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{AEA51B73-8C02-40F3-9679-6564436D7353}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AEA51B73-8C02-40F3-9679-6564436D7353}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -133,12 +129,15 @@ Global
 		{E2F53553-7046-4174-A2DC-B5499269AF23}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E2F53553-7046-4174-A2DC-B5499269AF23}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E2F53553-7046-4174-A2DC-B5499269AF23}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1520C52B-E839-4A93-8A95-24C61FCD9D1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1520C52B-E839-4A93-8A95-24C61FCD9D1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1520C52B-E839-4A93-8A95-24C61FCD9D1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1520C52B-E839-4A93-8A95-24C61FCD9D1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{C768173A-32AF-43F1-AEFA-AFDEEB63ACE6} = {50DDEC5A-3AB2-4B1F-A429-4E37B7677801}
 		{AEA51B73-8C02-40F3-9679-6564436D7353} = {2809C513-97BE-4BC1-9CCB-144C0760414D}
 		{67DCF054-C059-463E-A1BF-DBF2F1F463C0} = {4B6B25FC-3237-43A9-9619-61682AD1DFBC}
 		{B829F02D-A13D-44EA-872C-0E9850742414} = {651F8862-67AD-4CB3-9CB3-9C9AEAD8AB6A}
@@ -163,6 +162,7 @@ Global
 		{A59E32F5-5D0D-4A9F-80F8-2B561419E47E} = {2809C513-97BE-4BC1-9CCB-144C0760414D}
 		{33179803-8654-43F7-AD4E-31CFA36C34DC} = {4B6B25FC-3237-43A9-9619-61682AD1DFBC}
 		{E2F53553-7046-4174-A2DC-B5499269AF23} = {4B6B25FC-3237-43A9-9619-61682AD1DFBC}
+		{1520C52B-E839-4A93-8A95-24C61FCD9D1B} = {50DDEC5A-3AB2-4B1F-A429-4E37B7677801}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FED0518B-FEE9-4E67-A3B0-CD4930C6F755}
