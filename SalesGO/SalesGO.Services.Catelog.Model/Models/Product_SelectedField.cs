@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SalesGO.Services.Catelog.Model.Models
 {
-    public class Product_SelectedField
+    public class Product_SelectedField : Base
     {
         [Key]
         public int productSelectedFieldId { get; set; }

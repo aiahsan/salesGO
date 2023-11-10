@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SalesGO.Services.Catelog.Model.Models
 {
-    public class Product_subCategoryField
+    public class Product_SubCategoryField : Base
     {
         [Key]
         public int subCategoryFieldId { get; set; }
@@ -16,7 +16,7 @@ namespace SalesGO.Services.Catelog.Model.Models
         //foreing key Product_Sub_Category
         [ForeignKey("productSubCategory")]
         public int subCategoryId { get; set; }
-        public Product_subCategory productSubCategory { get; set; }
+        public Product_SubCategory productSubCategory { get; set; }
 
         public string fieldName { get; set; } = "";
 

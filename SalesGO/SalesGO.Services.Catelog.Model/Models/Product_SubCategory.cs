@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace SalesGO.Services.Catelog.Model.Models
 {
-    public class Product_subCategory
+    public class Product_SubCategory : Base
     {
         [Key]
         public int subCategoryId { get; set; }

@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SalesGO.Services.Catelog.Model.Models
+namespace SalesGO.Services.Catelog.Model.DTOS
 {
-    public class Setup_FieldType : Base
+    public class Setup_FieldTypeDTO : BaseDTO
     {
-        [Key]
+        
         public int fieldTypeId { get; set; }
         public string fieldName { get; set; }
-    
-    
+
+
     }
 }
