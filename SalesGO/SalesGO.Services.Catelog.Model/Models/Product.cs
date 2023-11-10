@@ -15,7 +15,7 @@ namespace SalesGO.Services.Catelog.Model.Models
 
         [ForeignKey("subCategory")]
         public int subCategoryId { get; set; }
-        public Product_subCategory subCategory { get; set; } 
+        public Product_SubCategory subCategory { get; set; } 
         
         public string image { get; set; }
         public string description { get; set; }

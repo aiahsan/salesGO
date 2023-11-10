@@ -17,7 +17,7 @@ namespace SalesGO.Services.Catelog.Model.Models
         public string businessId { get; set; }= "";
 
 
-        public ICollection<Product_subCategory> product_subCategories { get; set; }
+        public ICollection<Product_SubCategory> product_subCategories { get; set; }
 
     }
 }

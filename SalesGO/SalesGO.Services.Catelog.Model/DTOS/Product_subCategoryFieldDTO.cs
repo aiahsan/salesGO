@@ -22,7 +22,7 @@ namespace SalesGO.Services.Catelog.Model.DTOS
  
         public string fieldPreValues { get; set; } = "";
 
-        public int fieldFormControlId { get; set; } = "";
+        public int fieldFormControlId { get; set; }
 
 
 

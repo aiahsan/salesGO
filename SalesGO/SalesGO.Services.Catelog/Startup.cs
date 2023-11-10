@@ -10,7 +10,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SalesGO.Services.Catelog.DataContext.DataContext;
+using SalesGO.Services.Catelog.Interfaces.IRepository;
 using SalesGO.Services.Catelog.Model.Utiles;
+using SalesGO.Services.Catelog.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -37,8 +39,8 @@ namespace SalesGO.Services.Catelog
                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
               
             }));
-           
 
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

@@ -20,7 +20,7 @@ namespace SalesGO.Services.Catelog.Model.Models
         public Product_Category productCategory { get; set; }
 
 
-        public ICollection<Product_subCategoryField> product_subCategoryFields { get; set; }
+        public ICollection<Product_SubCategoryField> product_subCategoryFields { get; set; }
         public ICollection<Product> products { get; set; }
         
 

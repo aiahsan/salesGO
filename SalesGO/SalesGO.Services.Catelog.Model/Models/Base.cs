@@ -9,8 +9,8 @@ namespace SalesGO.Services.Catelog.Model.Models
     public class Base
     {
         public string createdBy { get; set; } = "";
-        public DateTimeOffset createdAt { get; set; } = DateTimeOffset.Now;
-        public DateTimeOffset? updatedAt { get; set; } = DateTimeOffset.Now;
+        public DateTime createdAt { get; set; } = DateTime.Now;
+        public DateTime? updatedAt { get; set; } 
         public string? updatedBy { get; set; } = "";
         public bool isActive { get; set; } = true;
     }

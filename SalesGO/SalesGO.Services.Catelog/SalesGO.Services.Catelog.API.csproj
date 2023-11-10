@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Response\Response.csproj" />
     <ProjectReference Include="..\SalesGO.Services.Catelog.DataContext\SalesGO.Services.Catelog.DataContext.csproj" />
   </ItemGroup>
 

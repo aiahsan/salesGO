@@ -19,8 +19,8 @@ namespace SalesGO.Services.Catelog.Model.Utiles
                 config.CreateMap<Product, ProductDTO>().ReverseMap();
                 config.CreateMap<Product_Category, Product_CategoryDTO>().ReverseMap();
                 config.CreateMap<Product_SelectedField, Product_SelectedFieldDTO>().ReverseMap();
-                config.CreateMap <Product_subCategory, Product_subCategoryDTO>().ReverseMap();
-                config.CreateMap<Product_subCategoryField, Product_subCategoryFieldDTO>().ReverseMap();
+                config.CreateMap <Product_SubCategory, Product_subCategoryDTO>().ReverseMap();
+                config.CreateMap<Product_SubCategoryField, Product_subCategoryFieldDTO>().ReverseMap();
                 config.CreateMap<Setup_FieldFormControl, Setup_FieldFormControlDTO>().ReverseMap();
                 config.CreateMap<Setup_FieldType, Setup_FieldTypeDTO>().ReverseMap();
 
