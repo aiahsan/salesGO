@@ -18,7 +18,7 @@ namespace SalesGO.Services.Customer.DataContext.DataContext
 
             if (!exsistCustomers)
             {
-                for (int i = 1; i <= 30; i++)
+                for (int i = 1; i <= 60; i++)
                 {
                     var setupCustomer = new Setup_Customer
                     {
@@ -47,7 +47,7 @@ namespace SalesGO.Services.Customer.DataContext.DataContext
             static List<Setup_Outlet> GenerateDummyOutlets(int customerNumber)
             {
                 var outlets = new List<Setup_Outlet>();
-                for (int j = 1; j <= 5; j++)
+                for (int j = 1; j <= 50; j++)
                 {
                     outlets.Add(new Setup_Outlet
                     {

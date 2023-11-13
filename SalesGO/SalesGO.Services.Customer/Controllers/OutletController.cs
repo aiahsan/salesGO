@@ -27,6 +27,24 @@ namespace SalesGO.Services.Customer.API.Controllers
 
         }
 
+
+        [HttpGet()]
+        public async Task<SalesGoResponse> Get()
+        {
+            try
+            {
+                var dataGet = await _context.Customer.WhereAsync(x => x.isActive == true);
+                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+
+            }
+            catch (Exception ex)
+            {
+                return CustomRequest.CreateResponse(ex.Message, false, null);
+            }
+
+        }
+
+
         [HttpPost()]
         public async Task<SalesGoResponse> CreateOutlet(Setup_Outlet _Outlet)
         {

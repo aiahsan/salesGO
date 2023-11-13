@@ -33,7 +33,9 @@ namespace SalesGO.Services.Customer.Controllers
         {
             try
             {
-                var dataGet = await _context.Customer.WhereAsync(x=>x.isActive==true);
+                
+
+                var dataGet = await _context.Customer.WhereAsync(x => x.isActive == true);
                  return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
 
             }

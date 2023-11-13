@@ -14,7 +14,7 @@ namespace SalesGO.Services.Customer.DataContext.Interfaces.IRepository
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> filter); 
         Task<bool> InsertAsync(T product); 
         Task<bool> UpdateAsync(T product, Expression<Func<T, bool>> filter);
- 
+  
 
     }
 }
