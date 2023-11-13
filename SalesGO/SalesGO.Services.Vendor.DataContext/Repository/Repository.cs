@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Linq.Expressions;
 
 namespace SalesGO.Services.Vendor.DataContext.Repository
 {
@@ -24,23 +25,26 @@ namespace SalesGO.Services.Vendor.DataContext.Repository
             this._DbSet = _context.Set<T>();
         }
 
-        public async Task<IEnumerable<T>> GetAll()
+
+        public async Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> filter = null)
         {
-            var filter = Builders<T>.Filter.Eq("isActive", true);
-            var data = await _DbSet.FindAsync(filter);
-            return data.ToList();
+
+            if (filter != null)
+            {
+                return await _DbSet.Find(filter).ToListAsync();
+            }
+            else
+            {
+                return await _DbSet.Find(_ => true).ToListAsync();
+            }
         }
 
-        public async Task<T> GetDataById(string id)
+        public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> filter)
         {
-            var objectId = ObjectId.Parse(id);
-            var filter = Builders<T>.Filter.Eq("_id", objectId);
-            var data = await _DbSet.FindAsync(filter);
-
-            return await data.FirstOrDefaultAsync();
+            return await _DbSet.Find(filter).FirstOrDefaultAsync();
         }
 
-        public async Task<bool> Create(T data)
+        public async Task<bool> InsertAsync(T data)
         {
             try
             {
@@ -53,35 +57,26 @@ namespace SalesGO.Services.Vendor.DataContext.Repository
             }
         }
 
-        public async Task<bool> Delete(FilterDefinition<T> filter)
-        {
-            var result = await _DbSet.DeleteOneAsync(filter).ConfigureAwait(false);
 
-            return result.DeletedCount > 0;
-        }
 
-        public async Task<bool> Update(T data, FilterDefinition<T> filter)
+        public async Task<bool> UpdateAsync(T entity, Expression<Func<T, bool>> filter = null)
         {
-            if (data != null)
+            // Replace the document based on the filter and get the acknowledgment
+            ReplaceOneResult result = await _DbSet.ReplaceOneAsync(filter, entity);
+
+
+            // You can now check the result for acknowledgment information
+            if (result.IsAcknowledged)
             {
-                var updateDefinitionBuilder = Builders<T>.Update;
-                var updateDefinition = updateDefinitionBuilder.Combine();
-
-                foreach (var property in typeof(T).GetProperties())
-                {
-                    // Exclude properties with null values
-                    var value = property.GetValue(data);
-                    if (value != null && !string.IsNullOrEmpty(value.ToString()))
-                    {
-                        updateDefinition = updateDefinition.Set(property.Name, value);
-                    }
-                }
-
-                var result = await _DbSet.UpdateOneAsync(filter, updateDefinition).ConfigureAwait(false);
-                return result.ModifiedCount > 0;
+                return true;
+            }
+            else
+            {
+                // Update was not acknowledged
+                return false;
             }
 
-            return false;
+
         }
 
     }

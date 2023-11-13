@@ -56,5 +56,14 @@ namespace Response.Const
                 return _SeatBoxResponse;
             }
         }
-   
+    public static class ApiResponseMessages
+    {
+        public const string NotFound = "Not found";
+        public const string SomethingWentWrong = "Something went wrong";
+        public const string Deleted = "Data deleted successfully";
+        public const string Updated = "Data updated successfully";
+        public const string Inserted = "Data inserted successfully";
+        public const string Retrieved = "Data retrieved successfully";
+
+    }
 }

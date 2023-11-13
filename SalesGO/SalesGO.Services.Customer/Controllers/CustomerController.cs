@@ -34,7 +34,7 @@ namespace SalesGO.Services.Customer.Controllers
             try
             {
                 var dataGet = await _context.Customer.WhereAsync(x=>x.isActive==true);
-                 return CustomRequest.CreateResponse("", true, dataGet);
+                 return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
 
             }
             catch (Exception ex)
@@ -52,11 +52,11 @@ namespace SalesGO.Services.Customer.Controllers
                 var dataGet = await _context.Customer.FirstOrDefaultAsync(x=>x.customerId==Id);
                  if (dataGet != null)
                 {
-                    return CustomRequest.CreateResponse("", true, dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
 
                 }
                 else
-                    return CustomRequest.CreateResponse("Customer not found", false, dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.NotFound, false, dataGet);
 
 
             }
@@ -73,13 +73,13 @@ namespace SalesGO.Services.Customer.Controllers
             try
             {
                 var dataGet = await _context.Customer.WhereAsync(x=>x.businessId==Id && x.isActive==true);
-                if (dataGet != null)
+                if (dataGet .Count()>0)
                 {
-                    return CustomRequest.CreateResponse("", true, dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
 
                 }
                 else
-                    return CustomRequest.CreateResponse("Customers not found", false, dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.NotFound, false, dataGet);
 
 
             }
@@ -102,13 +102,13 @@ namespace SalesGO.Services.Customer.Controllers
                     var response = await _context.Customer.InsertAsync(customer);
                     if (response == true)
                     {
-                        return CustomRequest.CreateResponse("", true, customer);
+                        return CustomRequest.CreateResponse(ApiResponseMessages.Inserted, true, customer);
 
                     }
 
                 }
 
-                return CustomRequest.CreateResponse("Something wen't wrong", false, customer);
+                return CustomRequest.CreateResponse(ApiResponseMessages.SomethingWentWrong, false, customer);
 
 
             }
@@ -158,18 +158,18 @@ namespace SalesGO.Services.Customer.Controllers
 
                         if (response == true)
                         {
-                            return CustomRequest.CreateResponse("Customer Updated", true, existingCustomer);
+                            return CustomRequest.CreateResponse(ApiResponseMessages.Updated, true, existingCustomer);
                         }
                         else
                         {
                             // Handle the case when the update is not successful
-                            return CustomRequest.CreateResponse("Failed to update customer", false, null);
+                            return CustomRequest.CreateResponse(ApiResponseMessages.SomethingWentWrong, false, null);
                         }
                     }
                    
                 }
 
-                return CustomRequest.CreateResponse("Invalid input or customer not found", false, customer);
+                return CustomRequest.CreateResponse(ApiResponseMessages.SomethingWentWrong, false, customer);
             }
             catch (Exception ex)
             {
@@ -191,7 +191,7 @@ namespace SalesGO.Services.Customer.Controllers
                         var response = await _context.Customer.UpdateAsync(_Data, x => x.customerId == id);
                         if (response == true)
                         {
-                            return CustomRequest.CreateResponse("Customer Deleted", true, _Data);
+                            return CustomRequest.CreateResponse(ApiResponseMessages.Deleted, true, _Data);
 
                         }
                     }
@@ -200,7 +200,7 @@ namespace SalesGO.Services.Customer.Controllers
 
                 }
 
-                return CustomRequest.CreateResponse("Something wen't wrong", false, null);
+                return CustomRequest.CreateResponse(ApiResponseMessages.SomethingWentWrong, false, null);
 
 
             }
@@ -211,78 +211,8 @@ namespace SalesGO.Services.Customer.Controllers
         }
        
 
-        /*
-        [HttpPost("Outlet")]
-        public async Task<SalesGoResponse> CreateOutlet(Setup_Outlet _Outlet)
-        {
-            try
-            {
-
-                if (_Outlet != null && _Outlet.customerId!=null&&_Outlet.customerId!="")
-                {
-                    _Outlet.outletId= null;
-                    var isCustomerExsist = await _context.Customer.GetDataById(_Outlet.customerId);
-                    
-                    if(isCustomerExsist != null)
-                    {
-                        var response = await _context.Customer.AddOutlet(_Outlet);
-                        if (response == true)
-                        {
-                            return CustomRequest.CreateResponse("", true, _Outlet);
-
-                        }
-                    }
-                    
-                    return CustomRequest.CreateResponse("Customer does not exist", false, null);
-
-                }
-
-                return CustomRequest.CreateResponse("Something wen't wrong", false, _Outlet);
 
 
-            }
-            catch (Exception ex)
-            {
-                return CustomRequest.CreateResponse(ex.Message, false, null);
-            }
-        }
-
-
-        [HttpPut("Outlet")]
-        public async Task<SalesGoResponse> UpdateOutlet(Setup_Outlet _Outlet)
-        {
-            try
-            {
-
-                if (_Outlet != null && _Outlet.customerId != null && _Outlet.customerId != "")
-                {
-                    _Outlet.outletId = null;
-                    var isCustomerExsist = await _context.Customer.GetDataById(_Outlet.customerId);
-
-                    if (isCustomerExsist != null)
-                    {
-                        var response = await _context.Customer.UpdateOutlet(_Outlet);
-                        if (response == true)
-                        {
-                            return CustomRequest.CreateResponse("", true, _Outlet);
-
-                        }
-                    }
-
-                    return CustomRequest.CreateResponse("Customer does not exist", false, null);
-
-                }
-
-                return CustomRequest.CreateResponse("Something wen't wrong", false, _Outlet);
-
-
-            }
-            catch (Exception ex)
-            {
-                return CustomRequest.CreateResponse(ex.Message, false, null);
-            }
-        }
-
-        */
+       
     }
 }
