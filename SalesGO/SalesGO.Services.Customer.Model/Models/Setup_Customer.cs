@@ -14,15 +14,15 @@ namespace SalesGO.Services.Customer.Model.Models
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string customerId { get; set; } = "";
-        public string businessId { get; set; }= "";
-        public string customerBusinessName { get; set; } = "";
-        public string customerTelephone { get; set; } = "";
-        public string customerEmail { get; set; } = "";
-        public string customerContact { get; set; } = "";
-        public string customerRepresentativeDesignation { get; set; } = "";
-        public string customerRepresentativeName { get; set; } = "";
-        public string customerAddress { get; set; } = "";
+        public string? customerId { get; set; }
+        public string? businessId { get; set; }= "";
+        public string? customerBusinessName { get; set; }
+        public string? customerTelephone { get; set; }
+        public string? customerEmail { get; set; } 
+        public string? customerContact { get; set; }
+        public string? customerRepresentativeDesignation { get; set; } 
+        public string? customerRepresentativeName { get; set; }  
+        public string? customerAddress { get; set; } 
 
         public List<Setup_Outlet> Outlets { get; set; } = new List<Setup_Outlet>();
 

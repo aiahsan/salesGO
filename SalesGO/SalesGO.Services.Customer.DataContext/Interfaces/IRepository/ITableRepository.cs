@@ -9,8 +9,7 @@ namespace SalesGO.Services.Customer.DataContext.Interfaces.IRepository
 {
     public interface ICustomer : IRepository<Setup_Customer>
     {
-        Task<IEnumerable<Setup_Customer>> GetDataByBusinessId(string id);
-        Task<bool> AddOutlet(Setup_Outlet outlet);
+         Task<bool> AddOutlet(Setup_Outlet outlet);
         Task<bool> UpdateOutlet(Setup_Outlet updatedOutlet);
 
 

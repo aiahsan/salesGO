@@ -21,8 +21,8 @@ namespace SalesGO.Services.Customer.DataContext.DataContext
             var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
 
             Setup_Customers = database.GetCollection<Setup_Customer>("Setup_Customers");
+            ContextSeed.SeedData(Setup_Customers);
 
-            
         }
         public IMongoCollection<Setup_Customer> Setup_Customers { get; }
 

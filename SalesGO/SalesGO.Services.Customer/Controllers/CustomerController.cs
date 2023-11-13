@@ -7,6 +7,8 @@ using SalesGO.Services.Customer.Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace SalesGO.Services.Customer.Controllers
@@ -31,7 +33,7 @@ namespace SalesGO.Services.Customer.Controllers
         {
             try
             {
-                var dataGet = await _context.Customer.GetAll();
+                var dataGet = await _context.Customer.WhereAsync(x=>x.isActive==true);
                  return CustomRequest.CreateResponse("", true, dataGet);
 
             }
@@ -47,7 +49,7 @@ namespace SalesGO.Services.Customer.Controllers
         {
             try
             {
-                var dataGet = await _context.Customer.GetDataById(Id);
+                var dataGet = await _context.Customer.FirstOrDefaultAsync(x=>x.customerId==Id);
                  if (dataGet != null)
                 {
                     return CustomRequest.CreateResponse("", true, dataGet);
@@ -70,7 +72,7 @@ namespace SalesGO.Services.Customer.Controllers
         {
             try
             {
-                var dataGet = await _context.Customer.GetDataByBusinessId(Id);
+                var dataGet = await _context.Customer.WhereAsync(x=>x.businessId==Id && x.isActive==true);
                 if (dataGet != null)
                 {
                     return CustomRequest.CreateResponse("", true, dataGet);
@@ -97,7 +99,7 @@ namespace SalesGO.Services.Customer.Controllers
                  if (customer != null)
                 {
                     customer.customerId = null;
-                    var response = await _context.Customer.Create(customer);
+                    var response = await _context.Customer.InsertAsync(customer);
                     if (response == true)
                     {
                         return CustomRequest.CreateResponse("", true, customer);
@@ -114,29 +116,60 @@ namespace SalesGO.Services.Customer.Controllers
             {
                 return CustomRequest.CreateResponse(ex.Message, false, null);
             }
-        }
-
-
+        } 
         [HttpPut()]
         public async Task<SalesGoResponse> UpdateCustomer(Setup_Customer customer)
         {
             try
             {
-                 if (customer != null)
+                if (customer != null && !string.IsNullOrEmpty(customer.customerId))
                 {
-                    var filter = Builders<Setup_Customer>.Filter.Eq("customerId", customer.customerId);
-                    var response = await _context.Customer.Update(customer, filter);
-                    if (response == true)
+                    var existingCustomer = await _context.Customer
+                        .FirstOrDefaultAsync(x => x.isActive == true && x.customerId == customer.customerId);
+
+                    if (existingCustomer != null)
                     {
-                        return CustomRequest.CreateResponse("Vendor Updated", true, customer);
+                        Type type = typeof(Setup_Customer);
+                        PropertyInfo[] properties = type.GetProperties();
 
+                        // Setting outlets from db to the main customer so it won't override it
+                        customer.Outlets = existingCustomer.Outlets;
+
+                        foreach (var property in properties)
+                        {
+                            // Check if the property is writable
+                            if (property.CanWrite)
+                            {
+                                object valueFromObj2 = property.GetValue(customer);
+                                object valueFromObj1 = property.GetValue(existingCustomer);
+
+                                // Only update if values are different
+                                if (!object.Equals(valueFromObj1, valueFromObj2))
+                                {
+                                    if (valueFromObj2 != null)
+                                    {
+                                        property.SetValue(existingCustomer, valueFromObj2);
+                                    }
+                                }
+                            }
+                        }
+
+                        var response = await _context.Customer.UpdateAsync(existingCustomer, x => x.customerId == customer.customerId);
+
+                        if (response == true)
+                        {
+                            return CustomRequest.CreateResponse("Customer Updated", true, existingCustomer);
+                        }
+                        else
+                        {
+                            // Handle the case when the update is not successful
+                            return CustomRequest.CreateResponse("Failed to update customer", false, null);
+                        }
                     }
-
+                   
                 }
 
-                return CustomRequest.CreateResponse("Something wen't wrong", false, customer);
-
-
+                return CustomRequest.CreateResponse("Invalid input or customer not found", false, customer);
             }
             catch (Exception ex)
             {
@@ -149,13 +182,21 @@ namespace SalesGO.Services.Customer.Controllers
         {
             try
             {
-
-                var filter = Builders<Setup_Customer>.Filter.Eq("customerId", id);
-                var response = await _context.Customer.Delete(filter);
-                if (response == true)
+                if (!string.IsNullOrEmpty(id))
                 {
+                    var _Data = await _context.Customer.FirstOrDefaultAsync(x => x.isActive == true && x.customerId == id);
+                    if (_Data != null)
+                    {
+                        _Data.isActive = false;
+                        var response = await _context.Customer.UpdateAsync(_Data, x => x.customerId == id);
+                        if (response == true)
+                        {
+                            return CustomRequest.CreateResponse("Customer Deleted", true, _Data);
 
-                    return CustomRequest.CreateResponse("Customer Updated", true, id);
+                        }
+                    }
+                    
+
 
                 }
 
@@ -168,8 +209,9 @@ namespace SalesGO.Services.Customer.Controllers
                 return CustomRequest.CreateResponse(ex.Message, false, null);
             }
         }
+       
 
-
+        /*
         [HttpPost("Outlet")]
         public async Task<SalesGoResponse> CreateOutlet(Setup_Outlet _Outlet)
         {
@@ -241,5 +283,6 @@ namespace SalesGO.Services.Customer.Controllers
             }
         }
 
+        */
     }
 }
