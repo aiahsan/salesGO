@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using MongoDB.Driver;
-using SalesGO.Services.Customer.DataContext.Interfaces.IContext;
 using SalesGO.Services.Customer.Model.Models;
 using System;
 using System.Collections.Generic;
@@ -10,30 +10,14 @@ using System.Threading.Tasks;
 
 namespace SalesGO.Services.Customer.DataContext.DataContext
 {
-    public partial class CustomerContext : ICustomerContext
+    public partial class CustomerContext : DbContext
     {
-        public CustomerContext(IConfiguration configuration)
+        public CustomerContext(DbContextOptions<CustomerContext> options) : base(options)
         {
-
-
-
-            var client = new MongoClient(configuration["DatabaseSettings:ConnectionString"]);
-            var database = client.GetDatabase(configuration["DatabaseSettings:DatabaseName"]);
-
-            Setup_Customers = database.GetCollection<Setup_Customer>("Setup_Customers");
-            ContextSeed.SeedData(Setup_Customers);
-
+            ContextSeed.SeedData(this);
         }
-        public IMongoCollection<Setup_Customer> Setup_Customers { get; }
-
-        public IMongoCollection<TEntity> Set<TEntity>() where TEntity : class
-        {
-            if (typeof(TEntity) == typeof(Setup_Customer))
-            {
-                return (IMongoCollection<TEntity>)Setup_Customers;
-            }
-
-            throw new NotImplementedException("Collection Not found");
-        }
+        
+        public DbSet<Setup_Outlet> Setup_Outlet { get; set; }
+        public DbSet<Setup_Customer> Setup_Customers { get; set; }
     }
 }

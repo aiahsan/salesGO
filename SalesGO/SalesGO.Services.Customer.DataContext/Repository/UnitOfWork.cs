@@ -1,4 +1,4 @@
-﻿using SalesGO.Services.Customer.DataContext.Interfaces.IContext;
+﻿using SalesGO.Services.Customer.DataContext.DataContext;
 using SalesGO.Services.Customer.DataContext.Interfaces.IRepository;
 using System;
 using System.Collections.Generic;
@@ -10,14 +10,18 @@ namespace SalesGO.Services.Customer.DataContext.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private ICustomerContext _context;
+        private CustomerContext _context;
 
-        public UnitOfWork(ICustomerContext context)
+        public UnitOfWork(CustomerContext context)
         {
             this._context = context;
-            Customer = new CustomerRepository(context);
+            _CustoemrRepo = new CustomerRepository(context);
+            _OutletRepo = new OutletRepository(context);
 
         }
-        public ICustomer Customer { get; private set; }
+        public ICustomerRepo _CustoemrRepo { get; private set; }
+
+        public IOutletRepo _OutletRepo { get; private set; }
+
     }
 }

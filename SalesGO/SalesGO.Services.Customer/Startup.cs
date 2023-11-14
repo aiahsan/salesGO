@@ -2,18 +2,19 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using SalesGO.Services.Customer.DataContext.DataContext;
-using SalesGO.Services.Customer.DataContext.Interfaces.IContext;
 using SalesGO.Services.Customer.DataContext.Interfaces.IRepository;
 using SalesGO.Services.Customer.DataContext.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace SalesGO.Services.Customer
@@ -32,10 +33,13 @@ namespace SalesGO.Services.Customer
         {
 
             services.AddControllers();
-            services.AddScoped<ICustomerContext, CustomerContext>();
+            services.AddDbContext<CustomerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sqlServerOptionsAction: sqlOptions => {
+                sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+
+            }));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "SalesGO.Services.Customer", Version = "v1" });

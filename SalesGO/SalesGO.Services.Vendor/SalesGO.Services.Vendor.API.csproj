@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Const\Const.csproj" />
     <ProjectReference Include="..\Response\Response.csproj" />
     <ProjectReference Include="..\SalesGO.Services.Vendor.DataContext\SalesGO.Services.Vendor.DataContext.csproj" />
     <ProjectReference Include="..\SalesGO.Services.Vendor.Model\SalesGO.Services.Vendor.Model.csproj" />

@@ -59,6 +59,21 @@ namespace SalesGO.Services.Catelog.Repository
         {
             return await _dbSet.Where(predicate).ToListAsync();
         }
+        public async Task<IEnumerable<T>> BatchFiltersync(Expression<Func<T, bool>> filter = null, int pageNumber = 1, int pageSize = 10)
+        {
+
+
+            var query = filter != null ? _dbSet.Where(filter) : _dbSet.AsQueryable();
+
+
+            // Calculate the number of documents to skip based on the page number and page size
+            int skip = (pageNumber - 1) * pageSize;
+
+            // Apply pagination
+            query = query.Skip(skip).Take(pageSize);
+
+            return await query.ToListAsync();
+        }
 
     }
 }

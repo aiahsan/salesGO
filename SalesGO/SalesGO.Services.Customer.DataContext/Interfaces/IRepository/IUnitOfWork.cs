@@ -8,7 +8,8 @@ namespace SalesGO.Services.Customer.DataContext.Interfaces.IRepository
 {
     public interface IUnitOfWork
     {
-        ICustomer Customer { get; }
+        ICustomerRepo _CustoemrRepo { get; }
+        IOutletRepo _OutletRepo { get; }
 
 
     }

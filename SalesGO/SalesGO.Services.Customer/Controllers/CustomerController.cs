@@ -39,8 +39,8 @@ namespace SalesGO.Services.Customer.Controllers
             {
                 
 
-                var dataGet = await _context.Customer.WhereAsync(x => x.isActive == true);
-                 return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                var dataGet = await _context._CustoemrRepo.WhereAsync(x => x.isActive == true);
+                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
 
             }
             catch (Exception ex)
@@ -51,11 +51,11 @@ namespace SalesGO.Services.Customer.Controllers
         }
 
         [HttpGet("{Id}")]
-        public async Task<SalesGoResponse> Get(string Id)
+        public async Task<SalesGoResponse> Get(int Id)
         {
             try
             {
-                var dataGet = await _context.Customer.FirstOrDefaultAsync(x=>x.customerId==Id);
+                var dataGet = await _context._CustoemrRepo.FirstOrDefaultAsync(x=>x.customerId==Id);
                  if (dataGet != null)
                 {
                     return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
@@ -78,7 +78,7 @@ namespace SalesGO.Services.Customer.Controllers
         {
             try
             {
-                var dataGet = await _context.Customer.WhereAsync(x=>x.businessId==Id && x.isActive==true);
+                var dataGet = await _context._CustoemrRepo.WhereAsync(x=>x.businessId==Id && x.isActive==true);
                 if (dataGet .Count()>0)
                 {
                     return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
@@ -126,7 +126,8 @@ namespace SalesGO.Services.Customer.Controllers
                 if (!string.IsNullOrEmpty(address))
                     predicate = predicate.And(x => x.customerAddress.ToLower().Contains(address.ToLower()));
 
-                predicate = predicate.And(x => x.isActive == true);
+                    
+                    predicate = predicate.And(x => x.isActive == true);
                 
 
                 
@@ -134,7 +135,7 @@ namespace SalesGO.Services.Customer.Controllers
 
 
 
-                var dataGet = await  _context.Customer.BatchFiltersync(predicate, page,limit);
+                var dataGet = await  _context._CustoemrRepo.BatchFiltersync(predicate, page,limit);
 
                 return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
             }
@@ -154,8 +155,8 @@ namespace SalesGO.Services.Customer.Controllers
 
                  if (customer != null)
                 {
-                    customer.customerId = null;
-                    var response = await _context.Customer.InsertAsync(customer);
+                   
+                    var response = await _context._CustoemrRepo.InsertAsync(customer);
                     if (response == true)
                     {
                         return CustomRequest.CreateResponse(ApiResponseMessages.Inserted, true, customer);
@@ -178,9 +179,9 @@ namespace SalesGO.Services.Customer.Controllers
         {
             try
             {
-                if (customer != null && !string.IsNullOrEmpty(customer.customerId))
+                if (customer != null && customer.customerId>0)
                 {
-                    var existingCustomer = await _context.Customer
+                    var existingCustomer = await _context._CustoemrRepo
                         .FirstOrDefaultAsync(x => x.isActive == true && x.customerId == customer.customerId);
 
                     if (existingCustomer != null)
@@ -210,7 +211,7 @@ namespace SalesGO.Services.Customer.Controllers
                             }
                         }
 
-                        var response = await _context.Customer.UpdateAsync(existingCustomer, x => x.customerId == customer.customerId);
+                        var response = await _context._CustoemrRepo.UpdateAsync(existingCustomer, x => x.customerId == customer.customerId);
 
                         if (response == true)
                         {
@@ -234,17 +235,17 @@ namespace SalesGO.Services.Customer.Controllers
         }
 
         [HttpDelete()]
-        public async Task<SalesGoResponse> Delete(string id)
+        public async Task<SalesGoResponse> Delete(int id)
         {
             try
             {
-                if (!string.IsNullOrEmpty(id))
+                if (id!=null)
                 {
-                    var _Data = await _context.Customer.FirstOrDefaultAsync(x => x.isActive == true && x.customerId == id);
+                    var _Data = await _context._CustoemrRepo.FirstOrDefaultAsync(x => x.isActive == true && x.customerId == id);
                     if (_Data != null)
                     {
                         _Data.isActive = false;
-                        var response = await _context.Customer.UpdateAsync(_Data, x => x.customerId == id);
+                        var response = await _context._CustoemrRepo.UpdateAsync(_Data, x => x.customerId == id);
                         if (response == true)
                         {
                             return CustomRequest.CreateResponse(ApiResponseMessages.Deleted, true, _Data);

@@ -1,4 +1,5 @@
-﻿using SalesGO.Services.Customer.Model.Models;
+﻿using MongoDB.Driver.Linq;
+using SalesGO.Services.Customer.Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,10 +8,19 @@ using System.Threading.Tasks;
 
 namespace SalesGO.Services.Customer.DataContext.Interfaces.IRepository
 {
-    public interface ICustomer : IRepository<Setup_Customer>
+    public interface ICustomerRepo : IRepository<Setup_Customer>
     {
-         Task<bool> AddOutlet(Setup_Outlet outlet);
-        Task<bool> UpdateOutlet(Setup_Outlet updatedOutlet);
+
+
+
+        
+
+    }
+
+    public interface IOutletRepo : IRepository<Setup_Outlet>
+    {
+
+        Task<List<Setup_Outlet>> GetOutletsbyBusinessId(string businessId);
 
 
     }

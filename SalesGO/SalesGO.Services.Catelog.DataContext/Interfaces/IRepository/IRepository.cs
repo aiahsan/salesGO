@@ -18,5 +18,7 @@ namespace SalesGO.Services.Catelog.Interfaces.IRepository
          Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> predicate);
         Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> predicate);
 
+        Task<IEnumerable<T>> BatchFiltersync(Expression<Func<T, bool>> filter = null, int pageNumber = 1, int pageSize = 10);
+
     }
 }

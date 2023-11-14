@@ -6,14 +6,25 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
-    <PackageReference Include="MongoDB.Driver" Version="2.22.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.13">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.13" />
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Const\Const.csproj" />
     <ProjectReference Include="..\SalesGO.Services.Customer.Model\SalesGO.Services.Customer.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\IContext\" />
   </ItemGroup>
 
 </Project>
