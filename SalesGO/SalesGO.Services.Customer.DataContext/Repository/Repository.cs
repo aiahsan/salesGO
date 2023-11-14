@@ -8,6 +8,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Const;
 
 namespace SalesGO.Services.Customer.DataContext.Repository
 {
@@ -28,14 +29,11 @@ namespace SalesGO.Services.Customer.DataContext.Repository
         public async Task<IEnumerable<T>> WhereAsync(Expression<Func<T, bool>> filter = null)
         {
 
-            if (filter != null)
-            {
-                return await _DbSet.Find(filter).ToListAsync();
-            }
-            else
-            {
-                return await _DbSet.Find(_ => true).ToListAsync();
-            }
+            var query = filter != null ? _DbSet.Find(filter) : _DbSet.Find(_ => true);
+
+            query = query.Limit(50000);
+
+            return await query.ToListAsync();
         }
 
         public async Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> filter)
@@ -54,9 +52,7 @@ namespace SalesGO.Services.Customer.DataContext.Repository
             {
                 return false;
             }
-        }
- 
-     
+        } 
 
         public async Task<bool> UpdateAsync(T entity, Expression<Func<T, bool>> filter = null)
         {   
@@ -78,5 +74,21 @@ namespace SalesGO.Services.Customer.DataContext.Repository
             
         }
 
+        public async Task<IEnumerable<T>> BatchFiltersync(Expression<Func<T, bool>> filter = null, int pageNumber = 1, int pageSize = 10)
+        {
+            var _f = filter;
+
+
+            var query = filter != null ? _DbSet.Find(filter) : _DbSet.Find(_ => true);
+
+
+            // Calculate the number of documents to skip based on the page number and page size
+            int skip = (pageNumber - 1) * pageSize;
+
+            // Apply pagination
+            query = query.Skip(skip).Limit(pageSize);
+
+            return await query.ToListAsync();
+        }
     }
 }

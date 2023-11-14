@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Const;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
@@ -226,6 +227,61 @@ namespace SalesGO.Services.Vendor.Controllers
             }
         }
 
+        [HttpGet("Filter")]
+        public async Task<SalesGoResponse> Filter(string vendorName, string vendorBusinessName, string vendorTelephone, string vendorEmail, string vendorContact, string vendorCity, string vendorRegion, string vendorCountry, string vendorAddress, int page = 1, int limit = 1)
+        {
+            try
+            {
+
+
+                var predicate = PredicateBuilder.True<Setup_Vendor>();
+
+                if (!string.IsNullOrEmpty(vendorName))
+                    predicate = predicate.And(x => x.vendorName.ToLower().Contains(vendorName.ToLower()));
+
+                if (!string.IsNullOrEmpty(vendorBusinessName))
+                    predicate = predicate.And(x => x.vendorBusinessName.ToLower().Contains(vendorBusinessName.ToLower()));
+
+                if (!string.IsNullOrEmpty(vendorTelephone))
+                    predicate = predicate.And(x => x.vendorTelephone.ToLower().Contains(vendorTelephone.ToLower()));
+
+                if (!string.IsNullOrEmpty(vendorEmail))
+                    predicate = predicate.And(x => x.vendorEmail.ToLower().Contains(vendorEmail.ToLower()));
+
+                if (!string.IsNullOrEmpty(vendorContact))
+                    predicate = predicate.And(x => x.vendorContact.ToLower().Contains(vendorContact.ToLower()));
+
+                if (!string.IsNullOrEmpty(vendorCity))
+                    predicate = predicate.And(x => x.vendorCity.ToLower().Contains(vendorCity.ToLower()));
+
+                if (!string.IsNullOrEmpty(vendorRegion))
+                    predicate = predicate.And(x => x.vendorRegion.ToLower().Contains(vendorRegion.ToLower())); 
+                
+                if (!string.IsNullOrEmpty(vendorCountry))
+                    predicate = predicate.And(x => x.vendorCountry.ToLower().Contains(vendorCountry.ToLower())); 
+                
+                if (!string.IsNullOrEmpty(vendorAddress))
+                    predicate = predicate.And(x => x.vendorAddress.ToLower().Contains(vendorAddress.ToLower()));
+
+                predicate = predicate.And(x => x.isActive == true);
+
+
+
+
+
+
+
+                var dataGet = await _context.Vendor.BatchFiltersync(predicate, page, limit);
+
+                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+            }
+            catch (Exception ex)
+            {
+                return CustomRequest.CreateResponse(ex.Message, false, null);
+            }
+
+
+        }
 
 
     }

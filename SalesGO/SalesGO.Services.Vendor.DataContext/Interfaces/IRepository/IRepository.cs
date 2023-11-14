@@ -16,6 +16,7 @@ namespace SalesGO.Services.Vendor.DataContext.Interfaces.IRepository
         Task<T> FirstOrDefaultAsync(Expression<Func<T, bool>> filter);
         Task<bool> InsertAsync(T _object);
         Task<bool> UpdateAsync(T _object, Expression<Func<T, bool>> filter);
+        Task<IEnumerable<T>> BatchFiltersync(Expression<Func<T, bool>> filter = null, int pageNumber = 1, int pageSize = 10)
 
     }
 }

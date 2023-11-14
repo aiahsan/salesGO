@@ -12,6 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Const\Const.csproj" />
     <ProjectReference Include="..\SalesGO.Services.Customer.Model\SalesGO.Services.Customer.Model.csproj" />
   </ItemGroup>
 
