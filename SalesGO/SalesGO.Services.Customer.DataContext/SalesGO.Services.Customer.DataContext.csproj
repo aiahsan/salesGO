@@ -15,7 +15,9 @@
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.13" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.13" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.13" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer.NetTopologySuite" Version="7.0.10" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.13" />
+		<PackageReference Include="NetTopologySuite" Version="2.5.0" />
 	</ItemGroup>
 
   <ItemGroup>

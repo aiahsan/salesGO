@@ -16,6 +16,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore.SqlServer;
 
 namespace SalesGO.Services.Customer
 {
@@ -33,10 +34,13 @@ namespace SalesGO.Services.Customer
         {
 
             services.AddControllers();
+       
             services.AddDbContext<CustomerContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), sqlServerOptionsAction: sqlOptions => {
                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 10, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                sqlOptions.UseNetTopologySuite();
+             })
 
-            }));
+            );
             services.AddScoped<IUnitOfWork, UnitOfWork>();
 
             services.AddControllers().AddJsonOptions(options => options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
