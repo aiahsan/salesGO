@@ -8,11 +8,12 @@ using SalesGO.Services.Customer.Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection.Emit;
+using System.Reflection.Emit;   
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using NetTopologySuite.Geometries; // Add this namespace
+using System.Data.SqlTypes;
 
 // Add this namespace
 // other properties
@@ -48,41 +49,57 @@ namespace SalesGO.Services.Customer.DataContext.Repository
 
         }
 
-        public async Task<List<Setup_Outlet>> GetOutletByRadius(double centerLat, double centerLong, double radiusMiles)
+        public async Task<List<Setup_Outlet>> GetOutletByRadius(double centerLat, double centerLong, double distance,string unit)
         {
-            var centerPoint = new Point(centerLong, centerLat) { SRID = 4326 };
+             
+            // Create factory 
+            var gf = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4326);
 
-            // Create a circular buffer with the specified radius around the center point
-            var buffer = centerPoint.Buffer(radiusMiles * 1609.34); // Convert miles to meters
+            // Set our Current Location
+            var currentLocation = gf.CreatePoint(new NetTopologySuite.Geometries.Coordinate(centerLong, centerLat));
+
+            if (unit.ToLower() == "km")
+            {
+                distance *= 1000;  
+            }
+
 
             // Query outlets that intersect with the buffer (within the specified radius)
             var outletsWithinRadius = await _context.Setup_Outlet
-                .Where(outlet => outlet.Location.Intersects(buffer))
+                .Where(outlet => outlet.Location.IsWithinDistance(currentLocation, distance))
                 .ToListAsync();
-
+            
             return outletsWithinRadius;
 
 
         }
 
-        public async Task<List<Setup_Outlet>> GetOutletByRadiusByCustomer(double centerLat, double centerLong, double radiusMiles, int customerId)
+        public async Task<List<Setup_Outlet>> GetOutletByRadiusByCustomer(double centerLat, double centerLong, double distance,string unit, int customerId)
         {
 
-            var centerPoint = new Point(centerLong, centerLat) { SRID = 4326 };
 
-            // Create a circular buffer with the specified radius around the center point
-            var buffer = centerPoint.Buffer(radiusMiles * 1609.34); // Convert miles to meters
+            // Create factory 
+            var gf = NetTopologySuite.NtsGeometryServices.Instance.CreateGeometryFactory(4326);
+
+            // Set our Current Location
+            var currentLocation = gf.CreatePoint(new NetTopologySuite.Geometries.Coordinate(centerLong, centerLat));
+
+            if (unit.ToLower() == "km")
+            {
+                distance *= 1000;
+            }
+
 
             // Query outlets that intersect with the buffer (within the specified radius)
             var outletsWithinRadius = await _context.Setup_Outlet
-                .Where(outlet => outlet.Location.Intersects(buffer)&&outlet.customerId== customerId)
+                .Where(outlet => outlet.Location.IsWithinDistance(currentLocation, distance) && outlet.customerId == customerId)
                 .ToListAsync();
-
+             
             return outletsWithinRadius;
 
         }
-   
+ 
 
-      
+       
     }
 }

@@ -21,8 +21,8 @@ namespace SalesGO.Services.Customer.DataContext.Interfaces.IRepository
     {
 
         Task<List<Setup_Outlet>> GetOutletsbyBusinessId(string businessId);
-        Task<List<Setup_Outlet>> GetOutletByRadius(double centerLat, double centerLong, double radiusMiles);
-        Task<List<Setup_Outlet>> GetOutletByRadiusByCustomer(double centerLat, double centerLong, double radiusMiles,int customerId);
+        Task<List<Setup_Outlet>> GetOutletByRadius(double centerLat, double centerLong, double distance,string unit);
+        Task<List<Setup_Outlet>> GetOutletByRadiusByCustomer(double centerLat, double centerLong, double distance,string unit,int customerId);
 
     }
 }

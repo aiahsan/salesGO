@@ -57,9 +57,11 @@ namespace SalesGO.Services.Customer.DataContext.DataContext
                     {
                         
                         customerId = _CustomerId,
+                        //x is longitude
+                        //y is latitude 
                         Location = new Point((-74.0060 - (0.1 * customerNumber) - (0.01 * j)), 40.7128 + (0.1 * customerNumber) + (0.01 * j)) { SRID = 4326 },
-                        outletLat= (-74.0060 - (0.1 * customerNumber) - (0.01 * j)),
-                        outletLong= 40.7128 + (0.1 * customerNumber) + (0.01 * j),
+                        outletLat = 40.7128 + (0.1 * customerNumber) + (0.01 * j),
+                        outletLong= -74.0060 - (0.1 * customerNumber) - (0.01 * j),
                         outletAddress = $"{j} Market St",
                         outletImage = $"outlet{j}_{j}.jpg",
                         outletContact = $"Outlet Contact {j}",

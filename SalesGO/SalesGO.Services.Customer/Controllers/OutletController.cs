@@ -55,7 +55,7 @@ namespace SalesGO.Services.Customer.API.Controllers
         {
             try
             {
-                var dataGet = await _context._OutletRepo.GetOutletByRadius(centerLat, centerLong, radiusMiles);
+                var dataGet = await _context._OutletRepo.GetOutletByRadius(centerLat, centerLong, radiusMiles, "km");
                 if (dataGet.Count() > 0)
                 {
 
@@ -101,7 +101,7 @@ namespace SalesGO.Services.Customer.API.Controllers
         {
             try
             {
-                var dataGet = await _context._OutletRepo.GetOutletByRadiusByCustomer(centerLat, centerLong, radiusMiles, customerId);
+                var dataGet = await _context._OutletRepo.GetOutletByRadiusByCustomer(centerLat, centerLong, radiusMiles, "km", customerId);
                 if (dataGet.Count() > 0)
                 {
 
@@ -127,7 +127,7 @@ namespace SalesGO.Services.Customer.API.Controllers
             {
                 var predicate = PredicateBuilder.True<Setup_Outlet>();
 
-                if (customerId != null)
+                if (customerId != null && customerId>0)
                     predicate = predicate.And(x => x.customerId == customerId);
 
                 if (!string.IsNullOrEmpty(outletAddress))
