@@ -17,6 +17,8 @@ using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.SqlServer;
+using SalesGO.Services.Customer.Model.Utiles;
+using AutoMapper;
 
 namespace SalesGO.Services.Customer
 {
@@ -32,6 +34,8 @@ namespace SalesGO.Services.Customer
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            IMapper mapper = MappingConfig.RegisterMaps().CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddControllers();
        

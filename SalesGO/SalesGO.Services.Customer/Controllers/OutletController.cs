@@ -1,12 +1,15 @@
-﻿using Const;
+﻿using AutoMapper;
+using Const;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Response.Const;
 using SalesGO.Services.Customer.DataContext.Interfaces.IRepository;
+using SalesGO.Services.Customer.Model.DTOS;
 using SalesGO.Services.Customer.Model.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Numerics;
 using System.Reflection;
@@ -19,13 +22,14 @@ namespace SalesGO.Services.Customer.API.Controllers
     public class OutletController : Controller
     {
         private readonly ILogger<OutletController> _logger;
-        private readonly IUnitOfWork _context; 
+        private readonly IUnitOfWork _context;
+        private readonly IMapper _mapper;
 
-        public OutletController(ILogger<OutletController> logger, IUnitOfWork unitOfWork)
+        public OutletController(ILogger<OutletController> logger, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _logger = logger;
             _context = unitOfWork;
-
+            _mapper = mapper;
         }
 
 
@@ -39,7 +43,8 @@ namespace SalesGO.Services.Customer.API.Controllers
 
 
                 var dataGet = await _context._OutletRepo.WhereAsync(x => x.isActive == true);
-                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                var mappedData = _mapper.Map<IEnumerable<OutletDTO>>(dataGet);
+                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
 
             }
             catch (Exception ex)
@@ -58,8 +63,8 @@ namespace SalesGO.Services.Customer.API.Controllers
                 var dataGet = await _context._OutletRepo.GetOutletByRadius(centerLat, centerLong, radiusMiles, "km");
                 if (dataGet.Count() > 0)
                 {
-
-                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                    var mappedData = _mapper.Map<List<OutletDTO>>(dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
 
                 }
                 else
@@ -81,7 +86,8 @@ namespace SalesGO.Services.Customer.API.Controllers
                 var dataGet = await _context._OutletRepo.FirstOrDefaultAsync(x => x.outletId == Id);
                 if (dataGet != null)
                 {
-                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                    var mappedData = _mapper.Map<OutletDTO>(dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
 
                 }
                 else
@@ -104,8 +110,8 @@ namespace SalesGO.Services.Customer.API.Controllers
                 var dataGet = await _context._OutletRepo.GetOutletByRadiusByCustomer(centerLat, centerLong, radiusMiles, "km", customerId);
                 if (dataGet.Count() > 0)
                 {
-
-                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                    var mappedData = _mapper.Map<List<OutletDTO>>(dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
 
                 }
                 else
@@ -142,8 +148,8 @@ namespace SalesGO.Services.Customer.API.Controllers
                 predicate = predicate.And(x => x.isActive == true);
 
                 var dataGet = await _context._OutletRepo.BatchFiltersync(predicate, page, limit);
-
-                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                var mappedData = _mapper.Map<IEnumerable<OutletDTO>>(dataGet);
+                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
             }
             catch (Exception ex)
             {
@@ -161,8 +167,8 @@ namespace SalesGO.Services.Customer.API.Controllers
                 var dataGet = await _context._OutletRepo.GetOutletsbyBusinessId(Id);
                 if (dataGet.Count() > 0)
                 {
-
-                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                    var mappedData = _mapper.Map<List<OutletDTO>>(dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
 
                 }
                 else
@@ -185,7 +191,8 @@ namespace SalesGO.Services.Customer.API.Controllers
                 var dataGet = await _context._OutletRepo.WhereAsync(x => x.customerId == Id && x.isActive == true);
                 if (dataGet.Count() > 0)
                 {
-                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                    var mappedData = _mapper.Map<IEnumerable<OutletDTO>>(dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
 
                 }
                 else
@@ -203,16 +210,16 @@ namespace SalesGO.Services.Customer.API.Controllers
 
 
         [HttpPost()]
-        public async Task<SalesGoResponse> CreateOutlet(Setup_Outlet outlet)
+        public async Task<SalesGoResponse> CreateOutlet(OutletDTO outlet)
         {
             try
             {
 
                 if (outlet != null)
                 {
-                    
-                   
-                    var response = await _context._OutletRepo.InsertAsync(outlet);
+                    var mappedDataToBeInserted = _mapper.Map<Setup_Outlet>(outlet);
+
+                    var response = await _context._OutletRepo.InsertAsync(mappedDataToBeInserted);
                     if (response == true)
                     {
                         return CustomRequest.CreateResponse(ApiResponseMessages.Inserted, true, outlet);
@@ -232,7 +239,7 @@ namespace SalesGO.Services.Customer.API.Controllers
         }
          
         [HttpPut()]
-        public async Task<SalesGoResponse> UpdateCustomer(Setup_Outlet _outlet)
+        public async Task<SalesGoResponse> UpdateCustomer(OutletDTO _outlet)
         {
             try
             {
@@ -271,7 +278,8 @@ namespace SalesGO.Services.Customer.API.Controllers
 
                         if (response == true)
                         {
-                            return CustomRequest.CreateResponse(ApiResponseMessages.Updated, true, existingOutlet);
+                            var mappedData = _mapper.Map<OutletDTO>(existingOutlet);
+                            return CustomRequest.CreateResponse(ApiResponseMessages.Updated, true, mappedData);
                         }
                         else
                         {
@@ -304,7 +312,8 @@ namespace SalesGO.Services.Customer.API.Controllers
                         var response = await _context._OutletRepo.UpdateAsync(_Data, x => x.outletId == id);
                         if (response == true)
                         {
-                            return CustomRequest.CreateResponse(ApiResponseMessages.Deleted, true, _Data);
+                            var mappedData = _mapper.Map<OutletDTO>(_Data);
+                            return CustomRequest.CreateResponse(ApiResponseMessages.Deleted, true, mappedData);
 
                         }
                     }

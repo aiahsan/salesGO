@@ -1,4 +1,5 @@
-﻿using Const;
+﻿using AutoMapper;
+using Const;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -6,9 +7,11 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Driver;
 using Response.Const;
 using SalesGO.Services.Customer.DataContext.Interfaces.IRepository;
+using SalesGO.Services.Customer.Model.DTOS;
 using SalesGO.Services.Customer.Model.Models;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Numerics;
@@ -23,13 +26,13 @@ namespace SalesGO.Services.Customer.Controllers
     {
         private readonly ILogger<CustomerController> _logger;
         private readonly IUnitOfWork _context;
+        private readonly IMapper _mapper;
 
-
-        public CustomerController(ILogger<CustomerController> logger, IUnitOfWork unitOfWork)
+        public CustomerController(ILogger<CustomerController> logger, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _logger = logger;
             _context = unitOfWork;
-
+            _mapper = mapper;
         }
 
         [HttpGet()]
@@ -40,7 +43,8 @@ namespace SalesGO.Services.Customer.Controllers
                 
 
                 var dataGet = await _context._CustoemrRepo.WhereAsync(x => x.isActive == true);
-                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                var mappedData = _mapper.Map<IEnumerable<CustomerDTO>>(dataGet);
+                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
 
             }
             catch (Exception ex)
@@ -58,7 +62,8 @@ namespace SalesGO.Services.Customer.Controllers
                 var dataGet = await _context._CustoemrRepo.FirstOrDefaultAsync(x=>x.customerId==Id);
                  if (dataGet != null)
                 {
-                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                    var mappedData = _mapper.Map<CustomerDTO>(dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
 
                 }
                 else
@@ -81,7 +86,8 @@ namespace SalesGO.Services.Customer.Controllers
                 var dataGet = await _context._CustoemrRepo.WhereAsync(x=>x.businessId==Id && x.isActive==true);
                 if (dataGet .Count()>0)
                 {
-                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                    var mappedData = _mapper.Map<IEnumerable<CustomerDTO>>(dataGet);
+                    return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
 
                 }
                 else
@@ -137,7 +143,9 @@ namespace SalesGO.Services.Customer.Controllers
 
                 var dataGet = await  _context._CustoemrRepo.BatchFiltersync(predicate, page,limit);
 
-                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, dataGet);
+                var mappedData = _mapper.Map<IEnumerable<CustomerDTO>>(dataGet);
+
+                return CustomRequest.CreateResponse(ApiResponseMessages.Retrieved, true, mappedData);
             }
             catch (Exception ex)
             {
@@ -148,17 +156,18 @@ namespace SalesGO.Services.Customer.Controllers
         }
 
         [HttpPost()]
-        public async Task<SalesGoResponse> CreateCustomer(Setup_Customer customer)
+        public async Task<SalesGoResponse> CreateCustomer(CustomerDTO customer)
         {
             try
             {
 
                  if (customer != null)
                 {
-                   
-                    var response = await _context._CustoemrRepo.InsertAsync(customer);
+                    var mappedData = _mapper.Map<Setup_Customer>(customer);
+                    var response = await _context._CustoemrRepo.InsertAsync(mappedData);
                     if (response == true)
                     {
+
                         return CustomRequest.CreateResponse(ApiResponseMessages.Inserted, true, customer);
 
                     }
@@ -175,7 +184,7 @@ namespace SalesGO.Services.Customer.Controllers
             }
         } 
         [HttpPut()]
-        public async Task<SalesGoResponse> UpdateCustomer(Setup_Customer customer)
+        public async Task<SalesGoResponse> UpdateCustomer(CustomerDTO customer)
         {
             try
             {
@@ -215,7 +224,10 @@ namespace SalesGO.Services.Customer.Controllers
 
                         if (response == true)
                         {
-                            return CustomRequest.CreateResponse(ApiResponseMessages.Updated, true, existingCustomer);
+
+                            var mappedData = _mapper.Map<CustomerDTO>(existingCustomer);
+
+                            return CustomRequest.CreateResponse(ApiResponseMessages.Updated, true, mappedData);
                         }
                         else
                         {
@@ -248,7 +260,9 @@ namespace SalesGO.Services.Customer.Controllers
                         var response = await _context._CustoemrRepo.UpdateAsync(_Data, x => x.customerId == id);
                         if (response == true)
                         {
-                            return CustomRequest.CreateResponse(ApiResponseMessages.Deleted, true, _Data);
+                            var mappedData = _mapper.Map<CustomerDTO>(_Data);
+
+                            return CustomRequest.CreateResponse(ApiResponseMessages.Deleted, true, mappedData);
 
                         }
                     }
